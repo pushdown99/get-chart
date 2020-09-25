@@ -1,10 +1,12 @@
+let xlsx    = require('read-excel-file/node');
+let pd      = require("node-pandas")
 let axios   = require("axios");
 let cheerio = require("cheerio");
 let express = require("express");
 var router  = express.Router();
 var app     = express();
 var moment  = require('moment-timezone');
-var port    = process.env.PORT || 3000;
+var port    = process.env.PORT || 5000;
 const log   = console.log;
 const URL   = "https://www.melon.com/chart/day/index.htm"
 
@@ -59,7 +61,20 @@ app.route('/')
     });
   });
 
-  app.listen(port, function(){
+
+app.route('/krx')
+  .get(function(req, res, next){
+    df = pd.readCsv("./krx.csv");
+    console.log(df.length);
+    /*
+    xlsx('./krx.xlsx').then((rows) => {
+      console.log(rows);
+      console.table(rows);
+     });
+     */
+});
+
+app.listen(port, function(){
     console.log('Listener: ', 'Example app listening on port ' + port);
 });
 
